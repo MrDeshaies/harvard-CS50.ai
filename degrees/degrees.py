@@ -92,7 +92,25 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    # TODO
+    # we want to use Breath-First-Search, so QueueFrontier
+    frontier = QueueFrontier()
+    frontier.add(Node(source, None, neighbors_for_person(source), None)) # neighbors = [(movieid, personid)]
+    explored = set(())
+    while(True):
+        # no solution exist
+        if frontier.empty():
+            return None
+        
+        # get the next person
+        current = frontier.remove()
+        if current.state == target:
+            return get_result(current)
+        
+        explored.add(current.state)
+        for (movie_id,co_star_id) in current.neighbors:
+            if co_star_id not in explored:
+                frontier.add(Node(co_star_id, current, neighbors_for_person(co_star_id), movie_id))
+
     raise NotImplementedError
 
 
@@ -134,6 +152,16 @@ def neighbors_for_person(person_id):
             neighbors.add((movie_id, person_id))
     return neighbors
 
+def get_result(targetNode):
+    """
+    Walks back the node list's parent to build the path of (movie_id, person_id) from source to targetNode 
+    """
+    result = []
+    while targetNode.parent:
+        result.append((targetNode.entry_action, targetNode.state))
+        targetNode = targetNode.parent
+    result.reverse() # since we start with parent and walk back
+    return result
 
 if __name__ == "__main__":
     main()
