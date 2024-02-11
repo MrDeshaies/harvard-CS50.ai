@@ -113,8 +113,6 @@ def shortest_path(source, target):
                     return get_result(co_star_node)
                 frontier.add(co_star_node)
 
-    raise NotImplementedError
-
 
 def person_id_for_name(name):
     """
