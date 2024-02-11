@@ -68,6 +68,8 @@ def main():
     target = person_id_for_name(input("Name: "))
     if target is None:
         sys.exit("Person not found.")
+    if source == target:
+        sys.exit("Same person")
 
     path = shortest_path(source, target)
 
@@ -101,15 +103,15 @@ def shortest_path(source, target):
         if frontier.empty():
             return None
         
-        # get the next person
+        # get and explore the next person
         current = frontier.remove()
-        if current.state == target:
-            return get_result(current)
-        
         explored.add(current.state)
         for (movie_id,co_star_id) in current.neighbors:
-            if co_star_id not in explored:
-                frontier.add(Node(co_star_id, current, neighbors_for_person(co_star_id), movie_id))
+            if co_star_id not in explored: #skip already visited
+                co_star_node = Node(co_star_id, current, neighbors_for_person(co_star_id), movie_id)
+                if co_star_id == target: # success, we are done
+                    return get_result(co_star_node)
+                frontier.add(co_star_node)
 
     raise NotImplementedError
 
