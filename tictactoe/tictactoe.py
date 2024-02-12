@@ -94,8 +94,14 @@ def terminal(board):
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
+    If X has won the game, the utility is 1. If O has won the game, the utility is -1. If the game has ended in a tie, the utility is 0.
     """
-    raise NotImplementedError
+    outcome = winner(board)
+    if outcome == X:
+        return 1
+    elif outcome == O:
+        return -1
+    return 0
 
 
 def minimax(board):

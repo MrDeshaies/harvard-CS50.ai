@@ -58,6 +58,30 @@ class TestTicTacToe(unittest.TestCase):
              [O,X,O]]
         self.assertEqual(winner(b), None)
         self.assertTrue(terminal(b))
+    
+    def test_utility(self):
+        self.assertEqual(utility(initial_state()), 0)
+        # tie
+        b = [[X,O,X],
+             [O,X,O],
+             [O,X,O]]
+        self.assertEqual(winner(b), None)
+        self.assertEqual(utility(b), 0)
+        
+        # X win
+        b = [[X,X,X],
+             [O,X,O],
+             [O,X,O]]
+        self.assertEqual(winner(b), X)
+        self.assertEqual(utility(b), 1)
+        
+        # O win
+        b = [[O,O,X],
+             [O,X,O],
+             [O,X,O]]
+        self.assertEqual(winner(b), O)
+        self.assertEqual(utility(b), -1)
+
         
 
 
