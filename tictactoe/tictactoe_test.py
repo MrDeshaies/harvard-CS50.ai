@@ -35,11 +35,30 @@ class TestTicTacToe(unittest.TestCase):
         self.assertEqual(winner(b), None)
         b[2][0] = X
         self.assertEqual(winner(b), X)
-        [0][0] = O
+        b[0][0] = O
         b[1][0] = O
         self.assertEqual(winner(b), None)
         b[2][0] = O
         self.assertEqual(winner(b), O)
+    
+    def test_terminal(self):
+        b = initial_state()
+        # empty not terminal
+        self.assertFalse(terminal(b))
+        # x win is terminal
+        b[0][0] = X
+        b[1][0] = X
+        self.assertFalse(terminal(b))
+        b[2][0] = X
+        self.assertTrue(terminal(b))
+        
+        #filled board tie also terminal
+        b = [[X,O,X],
+             [O,X,O],
+             [O,X,O]]
+        self.assertEqual(winner(b), None)
+        self.assertTrue(terminal(b))
+        
 
 
 if __name__ == '__main__':

@@ -76,16 +76,19 @@ def winner(board):
                      [(0,0),(1,0),(2,0)], [(0,1),(1,1),(2,1)], [(0,2),(1,2),(2,2)], # vertical
                      [(0,0),(1,1),(2,2)], [(0,2),(1,1),(2,0)]] # diagonal
     for symbol in (X,O):
-        if symbol*3 in [''.join([board[p[0][0]][p[0][1]],board[p[1][0]][p[1][1]],board[p[2][0]][p[2][1]]]) for p in win_positions]:
-            return symbol
+        for p in win_positions:
+            if symbol == board[p[0][0]][p[0][1]] and symbol == board[p[1][0]][p[1][1]] and symbol == board[p[2][0]][p[2][1]]:
+                return symbol
     return None
 
 
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
+    If the game is over, either because someone has won the game or because all cells have been filled without anyone winning, the function should return True.
+    Otherwise, the function should return False if the game is still in progress.
     """
-    raise NotImplementedError
+    return winner(board) or not actions(board)
 
 
 def utility(board):
