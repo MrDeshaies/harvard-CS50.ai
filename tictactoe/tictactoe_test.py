@@ -81,6 +81,66 @@ class TestTicTacToe(unittest.TestCase):
              [O,X,O]]
         self.assertEqual(winner(b), O)
         self.assertEqual(utility(b), -1)
+    
+
+    def test_minimax_board_value_terminal(self):
+        #
+        # X win
+        b = [[X,X,X],
+             [O,X,O],
+             [O,X,O]]
+        self.assertTrue(terminal(b))
+        self.assertEqual(minimax_board_value(b, True), utility(b))
+        self.assertEqual(minimax_board_value(b, False), utility(b))
+
+        # O win
+        b = [[O,O,X],
+             [O,X,O],
+             [O,X,O]]
+        self.assertTrue(terminal(b))
+        self.assertEqual(minimax_board_value(b, True), utility(b))
+        self.assertEqual(minimax_board_value(b, False), utility(b))
+    
+
+    def test_minimax_board_value(self):
+        # X about to win
+        b = [[X,X,EMPTY],
+             [O,O,X],
+             [X,O,O]]
+        self.assertEqual(minimax_board_value(b,True), 1)
+        self.assertEqual(minimax_board_value(b,False), 1)
+
+        # O about to win, but X can still win of next move of O is 3,3 (dumb)
+        b = [[X,X,EMPTY],
+             [X,O,O],
+             [O,X,EMPTY]]
+        self.assertEqual(minimax_board_value(b,True), 1)
+        self.assertEqual(minimax_board_value(b,False), -1)
+    
+    def test_minimax(self):
+        # X about to win
+        b = [[X,X,EMPTY],
+             [O,O,X],
+             [X,O,O]]
+        self.assertEqual(minimax(b), (0,2))
+
+        # O about to win, but X can still win of next move of O is 3,3 (dumb)
+        b = [[X,X,EMPTY],
+             [X,O,O],
+             [O,X,EMPTY]]
+        self.assertEqual(minimax(b), (0,2))
+
+        # X's turn, right move is again 0,2
+        b = [[X,EMPTY,EMPTY],
+             [O,EMPTY,EMPTY],
+             [X,EMPTY,O]]
+        self.assertEqual(minimax(b), (0,2))
+
+        # same scenario as above, but rotated
+        b = [[O,EMPTY,X],
+             [EMPTY,EMPTY,O],
+             [EMPTY,EMPTY,X]]
+        self.assertEqual(minimax(b), (2,0))
 
         
 

@@ -107,5 +107,43 @@ def utility(board):
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
+    The move returned should be the optimal action (i, j) that is one of the allowable actions on the board. If multiple moves are equally optimal, any of those moves is acceptable.
+    If the board is a terminal board, the minimax function should return None.
     """
-    raise NotImplementedError
+    if terminal(board):
+        return None
+    current_player = player(board)
+
+    result_action = None
+    if current_player == X:
+        value = -math.inf
+        for action in actions(board):
+            action_value = minimax_board_value(result(board, action), False)
+            if action_value > value:
+                value = action_value
+                result_action = action
+    else: #current_player is O
+        value = math.inf
+        for action in actions(board):
+            action_value = minimax_board_value(result(board, action), True)
+            if action_value < value:
+                value = action_value
+                result_action = action
+    return result_action
+
+
+def minimax_board_value(board, maximizing_player):
+    if terminal(board):
+        return utility(board)
+    
+    if maximizing_player:
+        value = -math.inf
+        for action in actions(board):
+            value = max(value, minimax_board_value(result(board, action), False))
+        return value
+    else:
+        value = math.inf
+        for action in actions(board):
+            value = min(value, minimax_board_value(result(board, action), True))
+        return value
+    
